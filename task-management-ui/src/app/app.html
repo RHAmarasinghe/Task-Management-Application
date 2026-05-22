@@ -1,0 +1,20 @@
+<div class="app-container">
+  <header class="app-header">
+    <div class="logo">
+      <h1>TaskManagement Pro</h1>
+    </div>
+    <div class="user-actions" *ngIf="isLoggedIn$ | async">
+      <button class="btn btn-outline" (click)="logout()">Logout</button>
+    </div>
+  </header>
+
+  <main class="app-main">
+    <ng-container *ngIf="isLoggedIn$ | async; else loginTpl">
+      <app-task-dashboard></app-task-dashboard>
+    </ng-container>
+
+    <ng-template #loginTpl>
+      <app-login></app-login>
+    </ng-template>
+  </main>
+</div>

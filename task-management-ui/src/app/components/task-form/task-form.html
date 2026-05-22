@@ -1,0 +1,55 @@
+<form [formGroup]="taskForm" (ngSubmit)="onSubmit()" class="task-form">
+  
+  <div class="form-group">
+    <label>Title <span class="required">*</span></label>
+    <input 
+      type="text" 
+      formControlName="title" 
+      placeholder="E.g. Fix login bug"
+      [class.is-invalid]="taskForm.get('title')?.invalid && taskForm.get('title')?.touched"
+    />
+    <div class="error-text" *ngIf="taskForm.get('title')?.invalid && taskForm.get('title')?.touched">
+      Title is required (max 200 chars).
+    </div>
+  </div>
+
+  <div class="form-row">
+    <div class="form-group">
+      <label>Priority</label>
+      <select formControlName="priority">
+        <option [value]="1">Low</option>
+        <option [value]="2">Medium</option>
+        <option [value]="3">High</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label>Due Date</label>
+      <input type="date" formControlName="dueDate" />
+    </div>
+  </div>
+
+  <div class="form-group" *ngIf="task">
+    <label class="checkbox-label">
+      <input type="checkbox" formControlName="isCompleted" />
+      <span>Mark as completed</span>
+    </label>
+  </div>
+
+  <div class="form-group">
+    <label>Description</label>
+    <textarea 
+      formControlName="description" 
+      rows="6" 
+      placeholder="Enter task details..."
+    ></textarea>
+  </div>
+
+  <div class="form-actions">
+    <button type="submit" class="btn btn-primary w-100" [disabled]="isSubmitting">
+      <span *ngIf="!isSubmitting">Save Task</span>
+      <span *ngIf="isSubmitting" class="loader"></span>
+    </button>
+  </div>
+
+</form>

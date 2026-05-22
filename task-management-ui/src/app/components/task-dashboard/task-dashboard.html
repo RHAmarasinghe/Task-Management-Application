@@ -1,0 +1,46 @@
+<div class="dashboard-layout">
+  
+  <div class="left-panel">
+    <div class="panel-header">
+      <h2>Tasks</h2>
+      <button class="btn btn-primary" (click)="onNewTask()">+ New Task</button>
+    </div>
+    
+    <app-task-list 
+      [tasks]="tasks" 
+      [selectedTaskId]="selectedTask?.id"
+      (selectTask)="onSelectTask($event)"
+      (toggleStatus)="onTaskStatusChanged($event)"
+      (deleteTask)="onTaskDeleted($event)"
+    ></app-task-list>
+  </div>
+
+  <div class="right-panel">
+    <ng-container *ngIf="selectedTask || isCreating; else emptyState">
+      <div class="panel-header">
+        <h2>{{ isCreating ? 'Create Task' : 'Edit Task' }}</h2>
+      </div>
+      <div class="form-container">
+        <app-task-form 
+          [task]="selectedTask" 
+          (saved)="onTaskSaved()">
+        </app-task-form>
+      </div>
+    </ng-container>
+
+    <ng-template #emptyState>
+      <div class="empty-state">
+        <div class="icon">📝</div>
+        <h3>No task selected</h3>
+        <p>Select a task from the list or create a new one to view details here.</p>
+      </div>
+    </ng-template>
+  </div>
+</div>
+
+<!-- Simple Toast Notification -->
+<div class="toast-container" *ngIf="toastMessage" [class.show]="toastMessage">
+  <div class="toast-message">
+    {{ toastMessage }}
+  </div>
+</div>
